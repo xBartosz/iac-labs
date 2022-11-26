@@ -76,3 +76,4 @@ jobs:
     steps:
       - name: Test with pytest
         run: |
+          poetry run task test
