@@ -31,16 +31,31 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install --no-root
-    - name: Lint with flake8
-      run: |
-        poetry run task lint
-    - name: Test with pytest
-      run: |
-        poetry run task test
-    - name: Formatter
-      run: |
-        poetry run task formatter
-    - name: Security test
-      run: |
-        poetry run task security
-
+  lint:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: |
+          poetry run task lint
+           
+        
+  formatter:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: |
+          poetry run task formatter
+        
+  security:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: |
+          poetry run task security
+        
+  test:
+    runs-on: ubuntu-latest
+    needs: [lint,formatter,security]
+    steps:
+      - run: |
+          poetry run task test
